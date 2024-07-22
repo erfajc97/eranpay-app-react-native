@@ -8,8 +8,23 @@ import { Text, View } from 'react-native';
 import FacebookIcon from '@/assets/svg/FacebookIcon';
 import GoogleIcon from '@/assets/svg/GoogleIcon';
 import FormToLogin from './components/login/FormToLogin';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAppDispatch } from '@/app/store/hooks/store';
+import { signInThunk } from '@/app/store/auth/thunk';
 
 export default function LoginScreen() {
+  const [token, setToken] = React.useState<string>('');
+  const dispatch = useAppDispatch();
+
+  async function saveToken(params: string) {
+    try {
+      await AsyncStorage.setItem('@token', params);
+      dispatch(signInThunk(params));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <ThemedView screenContainer className="flex-1 justify-evenly">
       <ThemedView center>
@@ -24,9 +39,13 @@ export default function LoginScreen() {
           </ThemedText>
         </ThemedText>
       </ThemedView>
-      <FormToLogin />
+      <FormToLogin token={token} setToken={setToken} />
       <ThemedView center>
-        <PrimaryButton goTo="" bgColor="#ff9500c4" text="Login" />
+        <PrimaryButton
+          goAction={() => saveToken(token)}
+          bgColor="#ff9500c4"
+          text="Login"
+        />
       </ThemedView>
       <ThemedView center className="w-[100%] flex flex-row h-5">
         <View className="h-[1px] bg-gray-500 w-[43%]"></View>
@@ -49,7 +68,6 @@ export default function LoginScreen() {
           <PrimaryButton
             Icon={<FacebookIcon />}
             bgIsPressed="white"
-            goTo=""
             typeText="defaultSemiBold"
             bgColor="#fff"
             colorText="#1A1C1E"
@@ -62,7 +80,7 @@ export default function LoginScreen() {
         center
         className="text-[14px] underline text-gray-400 "
       >
-        <Link href="">Forgot Your Password ?</Link>
+        <Link href="/recoverAccount">Forgot Your Password ?</Link>
       </ThemedText>
     </ThemedView>
   );

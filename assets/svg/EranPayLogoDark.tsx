@@ -1,6 +1,6 @@
 import * as React from "react";
 import Svg, { Path, Defs, LinearGradient, Stop } from "react-native-svg";
-const SplashSvg = () => (
+const EranPayLogoDark = () => (
   <Svg
     // xmlns="http://www.w3.org/2000/svg"
     width={291}
@@ -80,4 +80,4 @@ const SplashSvg = () => (
     </Defs>
   </Svg>
 );
-export default SplashSvg;
+export default EranPayLogoDark;

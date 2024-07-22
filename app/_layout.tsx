@@ -1,32 +1,30 @@
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect, useState } from 'react';
+import 'react-native-reanimated';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
+import { Stack } from 'expo-router';
+import { useColorScheme } from '@/hooks/useColorScheme';
 import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider,
 } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect, useState } from 'react';
-import 'react-native-reanimated';
-import { useColorScheme } from '@/hooks/useColorScheme';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { StatusBar } from 'expo-status-bar';
-
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require('@/assets/fonts/SpaceMono-Regular.ttf'),
   });
   const [isAppReady, setIsAppReady] = useState(false);
-  const [authUser, setAuthUser] = useState(false);
-
+  const colorScheme = useColorScheme();
+  const [userToken, setUserToken] = useState(true);
   useEffect(() => {
     if (loaded) {
       const prepareApp = async () => {
-        // Wait for an additional 3 seconds before hiding the splash screen
         await new Promise(resolve => setTimeout(resolve, 1000));
         await SplashScreen.hideAsync();
         setIsAppReady(true);
@@ -40,16 +38,18 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <SafeAreaProvider>
-        <StatusBar style={'light'} />
-        {authUser ? <StackFlow /> : <AuthFlow />}
-      </SafeAreaProvider>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <SafeAreaProvider>
+          {userToken ? <AuthenticatedFlow /> : <AuthFlow />}
+        </SafeAreaProvider>
+      </ThemeProvider>
+    </Provider>
   );
 }
 
-const StackFlow = () => {
+const AuthenticatedFlow: React.FC = () => {
+  console.log('Entering AuthenticatedFlow');
   return (
     <Stack
       screenOptions={{
@@ -57,12 +57,12 @@ const StackFlow = () => {
       }}
     >
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="+not-found" />
     </Stack>
   );
 };
 
-const AuthFlow = () => {
+const AuthFlow: React.FC = () => {
+  console.log('Entering AuthFlow');
   return (
     <Stack
       screenOptions={{

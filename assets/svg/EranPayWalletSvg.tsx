@@ -6,7 +6,7 @@ import Svg, {
   LinearGradient,
   Stop,
 } from 'react-native-svg';
-const EranPayLoginSvg = (props: SvgProps) => (
+const EranPayWalletSvg = (props: SvgProps) => (
   <Svg
     // xmlns="http://www.w3.org/2000/svg"
     width={200}
@@ -96,4 +96,4 @@ const EranPayLoginSvg = (props: SvgProps) => (
     </Defs>
   </Svg>
 );
-export default EranPayLoginSvg;
+export default EranPayWalletSvg;

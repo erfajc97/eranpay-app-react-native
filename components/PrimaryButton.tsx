@@ -20,6 +20,7 @@ interface PrimaryButtonProps {
   text?: string;
   className?: string;
   colorText?: string;
+  goAction?: () => void;
   typeText?:
     | 'default'
     | 'title'
@@ -32,6 +33,7 @@ interface PrimaryButtonProps {
 
 const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   goTo,
+  goAction,
   lightColor,
   darkColor,
   bgColor = '#ff9500c4',
@@ -48,7 +50,12 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
 
   const handlePress = () => {
-    if (goTo) router.push(goTo);
+    if (goTo) {
+      router.push(goTo);
+    }
+    if (goAction) {
+      goAction();
+    }
   };
 
   const handlePressIn = () => {

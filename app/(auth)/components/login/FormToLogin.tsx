@@ -1,14 +1,27 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  Keyboard,
+} from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-const FormToLogin: React.FC = () => {
+interface FormToLoginProps {
+  token: string;
+  setToken: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const FormToLogin: React.FC<FormToLoginProps> = ({ token, setToken }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
+  };
+  const handleDone = () => {
+    Keyboard.dismiss();
   };
 
   return (
@@ -27,10 +40,12 @@ const FormToLogin: React.FC = () => {
           style={styles.input}
           placeholder="Email"
           placeholderTextColor="gray"
-          value={email}
-          onChangeText={setEmail}
+          value={token}
+          onChangeText={setToken}
           keyboardType="email-address"
           autoCapitalize="none"
+          returnKeyType="done"
+          onSubmitEditing={handleDone}
         />
       </View>
       <View className="rounded-lg rounded-t-none" style={styles.inputContainer}>
@@ -48,6 +63,9 @@ const FormToLogin: React.FC = () => {
           onChangeText={setPassword}
           secureTextEntry={!isPasswordVisible}
           autoCapitalize="none"
+          keyboardType="default"
+          returnKeyType="done"
+          onSubmitEditing={handleDone}
         />
         <TouchableOpacity
           onPress={togglePasswordVisibility}
