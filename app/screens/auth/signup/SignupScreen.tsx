@@ -4,7 +4,7 @@ import { ThemedText } from '@/components/ThemedText';
 import LogoE_Svg from '@/assets/svg/LogoE_Svg';
 import PrimaryButton from '@/components/PrimaryButton';
 import { Link } from 'expo-router';
-import FormToSignup from './components/signup/FormToSignup';
+import FormToSignup from './components/FormToSignup';
 
 export default function SignupScreen() {
   return (
@@ -17,13 +17,17 @@ export default function SignupScreen() {
         <ThemedText className="" center type="small">
           Already have an account?{' '}
           <ThemedText className="text-[#FF950F]" type="small">
-            <Link href="/login">Login</Link>
+            <Link href="(routes)/login">Login</Link>
           </ThemedText>
         </ThemedText>
       </ThemedView>
       <FormToSignup />
       <ThemedView center>
-        <PrimaryButton goTo="" bgColor="#ff9500c4" text="Registarse" />
+        <PrimaryButton
+          goTo="(routes)/systemAuth"
+          bgColor="#ff9500c4"
+          text="Registarse"
+        />
       </ThemedView>
     </ThemedView>
   );

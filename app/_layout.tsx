@@ -12,6 +12,7 @@ import {
   ThemeProvider,
 } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
@@ -41,35 +42,25 @@ export default function RootLayout() {
     <Provider store={store}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <SafeAreaProvider>
-          {userToken ? <AuthenticatedFlow /> : <AuthFlow />}
+          <RootLayoutNav />
         </SafeAreaProvider>
       </ThemeProvider>
     </Provider>
   );
 }
-
-const AuthenticatedFlow: React.FC = () => {
-  console.log('Entering AuthenticatedFlow');
+const RootLayoutNav: React.FC = () => {
   return (
     <Stack
       screenOptions={{
         headerShown: false,
       }}
     >
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
-  );
-};
-
-const AuthFlow: React.FC = () => {
-  console.log('Entering AuthFlow');
-  return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name="(auth)" />
+      <Stack.Screen name="index" />
+      <Stack.Screen name="(routes)/onboarding/index" />
+      <Stack.Screen name="(routes)/login/index" />
+      <Stack.Screen name="(routes)/signup/index" />
+      <Stack.Screen name="(routes)/recoverAccount/index" />
+      <Stack.Screen name="(routes)/systemAuth/index" />
     </Stack>
   );
 };

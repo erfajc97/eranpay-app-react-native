@@ -7,19 +7,20 @@ import { Link } from 'expo-router';
 import { Text, View } from 'react-native';
 import FacebookIcon from '@/assets/svg/FacebookIcon';
 import GoogleIcon from '@/assets/svg/GoogleIcon';
-import FormToLogin from './components/login/FormToLogin';
+import FormToLogin from './components/FormToLogin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useAppDispatch } from '@/app/store/hooks/store';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks/store';
 import { signInThunk } from '@/app/store/auth/thunk';
 
 export default function LoginScreen() {
   const [token, setToken] = React.useState<string>('');
   const dispatch = useAppDispatch();
-
+  const { userToken, isLoading } = useAppSelector(state => state.auth);
   async function saveToken(params: string) {
     try {
       await AsyncStorage.setItem('@token', params);
       dispatch(signInThunk(params));
+      console.warn('Token saved:', userToken);
     } catch (error) {
       console.log(error);
     }
@@ -35,7 +36,7 @@ export default function LoginScreen() {
         <ThemedText className="" center type="small">
           Don't have an account?{' '}
           <ThemedText className="text-[#FF950F]" type="small">
-            <Link href="/signup">Sign up</Link>
+            <Link href="(routes)/signup">Sign up</Link>
           </ThemedText>
         </ThemedText>
       </ThemedView>
@@ -43,6 +44,7 @@ export default function LoginScreen() {
       <ThemedView center>
         <PrimaryButton
           goAction={() => saveToken(token)}
+          goTo="/(tabs)"
           bgColor="#ff9500c4"
           text="Login"
         />
@@ -80,7 +82,7 @@ export default function LoginScreen() {
         center
         className="text-[14px] underline text-gray-400 "
       >
-        <Link href="/recoverAccount">Forgot Your Password ?</Link>
+        <Link href="(routes)/recoverAccount">Forgot Your Password ?</Link>
       </ThemedText>
     </ThemedView>
   );

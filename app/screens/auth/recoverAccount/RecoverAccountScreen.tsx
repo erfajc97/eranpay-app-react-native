@@ -3,16 +3,14 @@ import PrimaryButton from '@/components/PrimaryButton';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Link } from 'expo-router';
-import FormToRecoverAccount from './components/recoverAccount/FormToRecoverAccount';
+import FormToRecoverAccount from './components/FormToRecoverAccount';
 
-interface recoverAccountProps {
-}
+interface recoverAccountProps {}
 
-const recoverAccount: React.FC<recoverAccountProps> = ({  }) => {
-
+const RecoverAccountScreen: React.FC<recoverAccountProps> = ({}) => {
   return (
     <ThemedView screenContainer className="flex-1 justify-center gap-y-20">
-      <ThemedView className='mb-10' center>
+      <ThemedView className="mb-10" center>
         <LogoE_Svg />
         <ThemedText className="mt-5" center type="title">
           {'Recover your \nAccount'}
@@ -20,7 +18,7 @@ const recoverAccount: React.FC<recoverAccountProps> = ({  }) => {
         <ThemedText className="" center type="small">
           Don't have an account?{' '}
           <ThemedText className="text-[#FF950F]" type="small">
-            <Link href="/signup">Sign up</Link>
+            <Link href="(routes)/signup">Sign up</Link>
           </ThemedText>
         </ThemedText>
       </ThemedView>
@@ -32,6 +30,4 @@ const recoverAccount: React.FC<recoverAccountProps> = ({  }) => {
   );
 };
 
-
-
-export default recoverAccount;
+export default RecoverAccountScreen;

@@ -1,11 +1,12 @@
 import { Link } from 'expo-router';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
-import EranPayWalletSvg from '../../assets/svg/EranPayWalletSvg';
+
+import EranPayWalletSvg from '@/assets/svg/EranPayWalletSvg';
 import PrimaryButton from '@/components/PrimaryButton';
 import LogoEranPay from '@/components/LogoEranPay';
 
-export default function CreateAccountScreen() {
+export default function OnBoardingScreen() {
   return (
     <ThemedView screenContainer className="flex justify-around">
       <ThemedView center>
@@ -29,9 +30,13 @@ export default function CreateAccountScreen() {
         </ThemedText>
       </ThemedView>
       <ThemedView center>
-        <PrimaryButton goTo="/signup" bgColor="#ff9500c4" text="Crear cuenta" />
+        <PrimaryButton
+          goTo="(routes)/signup"
+          bgColor="#ff9500c4"
+          text="Crear cuenta"
+        />
         <ThemedText type="link" center className="mt-2 text-[#FF950F] ">
-          <Link href="/login">Ya tengo cuenta</Link>
+          <Link href="(routes)/login">Ya tengo cuenta</Link>
         </ThemedText>
       </ThemedView>
     </ThemedView>
