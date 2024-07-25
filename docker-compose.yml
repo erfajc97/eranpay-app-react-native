@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  eranpay-expo:
+    build: .
+    ports:
+      - '19000:19000' # Puerto para el servidor de Expo
+      - '19001:19001' # Puerto para el servidor de Expo
+      - '19002:19002' # Puerto para el servidor de Expo
+    volumes:
+      - .:/app # Monta el directorio actual en el directorio de trabajo del contenedor
+      - /app/node_modules # Utiliza un volumen nombrado para node_modules para mejorar el rendimiento
+    environment:
+      - NODE_ENV=development # Configura la variable de entorno
+    command: npx expo start # Comando para iniciar la aplicación
