@@ -25,7 +25,7 @@ export default function TabsIndex() {
         dispatch(restoreTokenThunk(null));
       }
     } catch (error) {
-      console.log('Error retrieving token:', error);
+      console.log('Error retrieving tokens:', error);
     }
   };
   return (
