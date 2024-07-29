@@ -1,30 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import LogoE_Svg from '@/assets/svg/LogoE_Svg';
 import PrimaryButton from '@/components/PrimaryButton';
 import { Link } from 'expo-router';
-import { Text, View } from 'react-native';
+import { Text, View, KeyboardAvoidingView } from 'react-native';
 import FacebookIcon from '@/assets/svg/FacebookIcon';
 import GoogleIcon from '@/assets/svg/GoogleIcon';
 import FormToLogin from './components/FormToLogin';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useAppDispatch, useAppSelector } from '@/app/store/hooks/store';
-import { signInThunk } from '@/app/store/auth/thunk';
+import useLogin from './hooks/useLogin';
 
 export default function LoginScreen() {
-  const [token, setToken] = React.useState<string>('');
-  const dispatch = useAppDispatch();
-  const { userToken, isLoading } = useAppSelector(state => state.auth);
-  async function saveToken(params: string) {
-    try {
-      await AsyncStorage.setItem('@token', params);
-      dispatch(signInThunk(params));
-      console.warn('Token saved:', userToken);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  const { signInWithEmail, email, setEmail, password, setPassword, loading } =
+    useLogin();
 
   return (
     <ThemedView screenContainer className="flex-1 justify-evenly">
@@ -40,11 +28,19 @@ export default function LoginScreen() {
           </ThemedText>
         </ThemedText>
       </ThemedView>
-      <FormToLogin token={token} setToken={setToken} />
+      <KeyboardAvoidingView behavior="padding">
+        <FormToLogin
+          setEmail={setEmail}
+          email={email}
+          setPassword={setPassword}
+          password={password}
+        />
+      </KeyboardAvoidingView>
       <ThemedView center>
         <PrimaryButton
-          goAction={() => saveToken(token)}
-          goTo="/(tabs)"
+          loading={loading}
+          disabled={loading || !email || !password}
+          goAction={() => signInWithEmail({ email, password })}
           bgColor="#ff9500c4"
           text="Login"
         />

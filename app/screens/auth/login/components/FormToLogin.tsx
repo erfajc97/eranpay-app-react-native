@@ -7,15 +7,14 @@ import {
   Keyboard,
 } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { FormToLoginProps } from '../type';
 
-interface FormToLoginProps {
-  token: string;
-  setToken: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const FormToLogin: React.FC<FormToLoginProps> = ({ token, setToken }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const FormToLogin: React.FC<FormToLoginProps> = ({
+  email,
+  setEmail,
+  password,
+  setPassword,
+}) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -40,8 +39,8 @@ const FormToLogin: React.FC<FormToLoginProps> = ({ token, setToken }) => {
           style={styles.input}
           placeholder="Email"
           placeholderTextColor="gray"
-          value={token}
-          onChangeText={setToken}
+          value={email}
+          onChangeText={setEmail}
           keyboardType="email-address"
           autoCapitalize="none"
           returnKeyType="done"

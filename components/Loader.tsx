@@ -1,20 +1,28 @@
+import { View, Text, ActivityIndicator } from 'react-native';
 import React from 'react';
-import { LinearGradient } from 'expo-linear-gradient';
-import AnimatedLoader from 'react-native-animated-loader';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
-export default function Loader() {
-  return (
-    <LinearGradient
-      colors={['#E5ECF9', '#F6F7F9']}
-      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-    >
-      <AnimatedLoader
-        visible={true}
-        overlayColor="rgba(255,255,255,0.75)"
-        source={require('@/assets/animation/Online data Manager.json')}
-        animationStyle={{ width: 250, height: 250 }}
-        speed={1.5}
-      />
-    </LinearGradient>
-  );
+interface LoaderProps {
+  size?: 'small' | 'large';
+  color?: string;
+  lightColor?: string;
+  darkColor?: string;
 }
+const Loader: React.FC<LoaderProps> = ({
+  size = 'large',
+  color = '#fff',
+  lightColor = '',
+  darkColor = '',
+}) => {
+  const colorTheme = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    'text'
+  );
+  return (
+    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+      <ActivityIndicator size={size} color={color ? color : colorTheme} />
+    </View>
+  );
+};
+
+export default Loader;

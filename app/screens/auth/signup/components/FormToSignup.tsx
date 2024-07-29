@@ -13,21 +13,33 @@ import RNPickerSelect from 'react-native-picker-select';
 import DateTimePicker, {
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
+import { FormToSignUpProps } from '../types';
 
-const FormToSignup: React.FC = () => {
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
-  const [dob, setDob] = useState<Date>(new Date());
+const FormToSignup: React.FC<FormToSignUpProps> = ({
+  email,
+  setEmail,
+  password,
+  setPassword,
+  firstName,
+  setFirstName,
+  lastName,
+  setLastName,
+  country,
+  setCountry,
+  phoneNumber,
+  setPhoneNumber,
+  dob,
+  setDob,
+}) => {
   const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
-  const [country, setCountry] = useState<string>('EC');
-  const [phoneNumber, setPhoneNumber] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
-
+  const handleDone = () => {
+    Keyboard.dismiss();
+  };
   const handleDateChange = (
     event: DateTimePickerEvent,
     selectedDate?: Date
@@ -127,6 +139,25 @@ const FormToSignup: React.FC = () => {
             onSubmitEditing={Keyboard.dismiss}
           />
         </View>
+      </View>
+      <View style={styles.inputContainer}>
+        <Ionicons
+          name="mail-outline"
+          size={24}
+          color="#FF950Fc1"
+          style={styles.icon}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          placeholderTextColor="gray"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          returnKeyType="done"
+          onSubmitEditing={handleDone}
+        />
       </View>
       <View style={styles.inputContainer}>
         <Ionicons

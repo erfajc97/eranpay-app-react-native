@@ -1,40 +1,30 @@
-// import Loader from '@/components/Loader';
-
-import { Redirect } from 'expo-router';
-import { useAppDispatch, useAppSelector } from './store/hooks/store';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { restoreTokenThunk } from './store/auth/thunk';
-import { useEffect } from 'react';
+import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
 import Loader from '@/components/Loader';
+import { Session } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase';
 
-export default function TabsIndex() {
-  const { userToken, isLoading } = useAppSelector(state => state.auth);
-  const dispatch = useAppDispatch();
-  console.warn(userToken);
+export default function Index() {
+  const [session, setSession] = useState<Session | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    getValue();
-  }, []);
-
-  const getValue = async () => {
-    try {
-      const value = await AsyncStorage.getItem('@token');
-      if (value !== null) {
-        dispatch(restoreTokenThunk(value));
+    setIsLoading(true);
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      if (session) {
+        router.replace('/(tabs)');
       } else {
-        dispatch(restoreTokenThunk(null));
+        router.replace('/(routes)/onboarding');
       }
-    } catch (error) {
-      console.log('Error retrieving tokens:', error);
-    }
-  };
-  return (
-    <>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <Redirect href={!userToken ? '/(routes)/onboarding' : '/(tabs)'} />
-      )}
-    </>
-  );
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  }, []);
+  return <>{isLoading && <Loader />}</>;
 }

@@ -1,3 +1,3 @@
-import { restoreToken, signIn, signOut } from './authSlice'
+import { isSignOut, setUser } from './authSlice';
 
-export { restoreToken, signIn, signOut }
+export { isSignOut, setUser };

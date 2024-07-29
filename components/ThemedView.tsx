@@ -30,9 +30,7 @@ export function ThemedView({
 
   const containerStyle: StyleProp<ViewStyle> = {
     paddingBottom:
-      Platform.OS === 'android' && insets.bottom === 0
-        ? insets.bottom
-        : insets.bottom,
+      Platform.OS === 'android' && insets.bottom === 0 ? 20 : insets.bottom,
     paddingTop: insets.top,
     width: width,
     height: height,

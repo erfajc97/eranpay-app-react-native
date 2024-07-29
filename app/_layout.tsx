@@ -56,6 +56,13 @@ const RootLayoutNav: React.FC = () => {
       }}
     >
       <Stack.Screen name="index" />
+      <Stack.Screen
+        name="(routes)/home/index"
+        options={{
+          gestureEnabled: false,
+          headerLeft: () => null,
+        }}
+      />
       <Stack.Screen name="(routes)/onboarding/index" />
       <Stack.Screen name="(routes)/login/index" />
       <Stack.Screen name="(routes)/signup/index" />

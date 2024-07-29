@@ -6,6 +6,7 @@ import {
   Animated,
   View,
   StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 import { ThemedText } from './ThemedText';
 import { useRouter } from 'expo-router';
@@ -29,6 +30,8 @@ interface PrimaryButtonProps {
     | 'link'
     | 'small';
   Icon?: ReactNode;
+  loading?: boolean;
+  disabled?: boolean;
 }
 
 const PrimaryButton: React.FC<PrimaryButtonProps> = ({
@@ -43,6 +46,8 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   colorText = '#fff',
   typeText,
   Icon,
+  loading,
+  disabled,
 }) => {
   const [isPressed, setIsPressed] = useState(false);
   const router = useRouter();
@@ -86,6 +91,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
       style={animatedStyle as StyleProp<ViewStyle>}
     >
       <Pressable
+        disabled={loading || disabled}
         style={
           {
             backgroundColor: isPressed ? bgIsPressed : bgColor,
@@ -95,6 +101,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
+            opacity: disabled ? 0.8 : 1,
           } as StyleProp<ViewStyle>
         }
         onPress={handlePress}
@@ -102,13 +109,17 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
         onPressOut={handlePressOut}
       >
         {Icon && <View style={styles.iconContainer}>{Icon}</View>}
-        <ThemedText
-          style={{ color: colorText ? colorText : color }}
-          type={typeText ? typeText : 'defaultSemiBold'}
-          className="text-center my-auto mx-0"
-        >
-          {text}
-        </ThemedText>
+        {loading ? (
+          <ActivityIndicator size="small" color={color} />
+        ) : (
+          <ThemedText
+            style={{ color: colorText ? colorText : color }}
+            type={typeText ? typeText : 'defaultSemiBold'}
+            className="text-center my-auto mx-0"
+          >
+            {text}
+          </ThemedText>
+        )}
       </Pressable>
     </Animated.View>
   );
