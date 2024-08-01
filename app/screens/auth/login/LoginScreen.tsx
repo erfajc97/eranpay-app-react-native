@@ -46,9 +46,9 @@ export default function LoginScreen() {
         />
       </ThemedView>
       <ThemedView center className="w-[100%] flex flex-row h-5">
-        <View className="h-[1px] bg-gray-500 w-[43%]"></View>
+        <View className="h-[1px] bg-gray-500 w-[42%]"></View>
         <Text className="text-[10px] text-center text-gray-400 mx-2">Or</Text>
-        <View className="h-[1px] bg-gray-500 w-[43%]"></View>
+        <View className="h-[1px] bg-gray-500 w-[42%]"></View>
       </ThemedView>
       <ThemedView className="flex gap-y-4">
         <ThemedView center>
